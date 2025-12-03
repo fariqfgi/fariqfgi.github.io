@@ -12,10 +12,10 @@ Meski demikian, penting untuk dipahami bahwa prediktabilitas Object ID bukanlah 
 ![Image](/assets/img/posts/mongodb-objectids.png)
 
 MongoDB Object ID terdiri dari 12-byte (24 karakter heksadesimal) dengan format berikut:
-4 byte pertama: Timestamp Unix
-3 byte berikutnya: Machine Identifier
-2 byte berikutnya: Process ID
-3 byte terakhir: Counter Incremental
+- 4 byte pertama: Timestamp Unix
+- 3 byte berikutnya: Machine Identifier
+- 2 byte berikutnya: Process ID
+- 3 byte terakhir: Counter Incremental
 
 ### Mengapa Prediksi Object ID Memudahkan Testing IDOR
 Karena `machine identifier` dan `process ID` cenderung statis, attacker hanya perlu mengiterasi timestamp dan counter untuk menghasilkan Object ID yang `mungkin` valid. Pada sistem dengan traffic tinggi, MongoDB dapat menghasilkan ribuan Object ID per detik, sehingga counter antar resource bisa berbeda signifikan meskipun dibuat hampir bersamaan. Tool seperti [mongo-objectid-predict](https://github.com/andresriancho/mongo-objectid-predict) dapat menghasilkan sekitar 1000 kemungkinan Object ID berdasarkan satu seed Object ID yang diketahui, memudahkan testing IDOR.
